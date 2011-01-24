@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/site.css" type="text/css" media="screen,print" charset="utf-8" />
+    <script src="{{ STATIC_URL }}js/jquery.min.js" type="text/javascript" language="en" charset="utf-8"></script>
+
+    <link rel="shortcut icon" type="image/x-icon" href="{{ STATIC_URL }}images/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="{{ STATIC_URL }}images/favicon.ico" />
+    
+</head>
+<body id="site">
+    <nav id="nav">
+        <div class="nav-element">
+            <a href="{% url list_uiforms user.username %}">My UIForms</a>
+        </div>
+        <div class="nav-element">
+            <a href="{% url create_uiform user.username %}">Create a new UIForm</a>
+        </div>
+        <div class="clear"></div>
+    </nav>
+
+    <div id="wrapper">
+    {% block content %}
+
+    {% endblock %}
+    </div>
+</body>
+</html>
+

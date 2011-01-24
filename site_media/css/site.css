@@ -1,0 +1,209 @@
+/*****************************************************************************/
+/*
+/* Common
+/*
+/*****************************************************************************/
+
+/* Global Reset */
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    background-color: white;
+    font: 13.34px helvetica, arial, clean, sans-serif;
+    text-align: center;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-size: 100%;
+}
+
+h1 {
+    margin-bottom: 1em;
+}
+
+p {
+    margin: 1em 0;
+}
+
+a {
+    color: #8085C1;
+}
+
+a:visited {
+    color: #8b64bb;
+}
+
+a:hover {
+    color: black;
+}
+
+table {
+    font-size: inherit;
+    font: 100%;
+}
+
+.clear {
+    clear: both;
+}
+
+
+body {
+    background-color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+#nav {
+    background-color: #bcd;
+    margin: 0;
+    background-color: #555;
+    border-bottom: 2px solid #444;
+}
+
+.nav-element {
+    float: left;
+    margin: 10px 4px;
+    font-size: 1.5em;
+}
+
+.nav-element a {
+    color: lightblue;
+    text-decoration: none;
+    background-color: #666;
+    padding: 6px;
+    border: 1px solid #444;
+}
+
+.nav-element a:hover {
+    color: black;
+    background-color: #def;
+}
+
+#wrapper {
+    width: 800px;
+    margin: 30px auto;
+    background-color: #555;
+    border: 4px dashed #444;
+    -webkit-box-shadow: 0px 0px 10px black;
+    -moz-box-shadow: 0px 0px 10px black;
+    box-shadow: 0px 0px 10px black;
+}
+
+#section-title {
+    color: lightblue;
+    text-shadow: 1px 1px 2px black;
+    font-size: 2em;
+    text-align: left;
+    display: block;
+    background-color: #666;
+    padding: 8px 30px;
+    border-bottom: 2px solid #444;
+    margin-bottom: 10px;
+}
+
+.uiform, .create-update-form {
+    border: 2px solid grey;
+    background-color: #eee;
+    padding: 14px;    
+    margin-bottom: 10px;
+    margin: 20px;
+    margin-top: 0px;
+    -webkit-box-shadow: 0px 0px 5px #222;
+    -moz-box-shadow: 0px 0px 5px #222
+    box-shadow: 0px 0px 5px #222;
+}
+
+.uiform-title {
+    text-decoration: none;
+}
+
+.uiform-title h3 {
+    text-align: left;
+    font-size: 1.5em;
+    margin-top: 0px;
+}
+
+.uiform-description {
+    font-size: 120%;
+    font-family: Verdana, sans-serif;
+    margin-bottom: 30px;
+}
+
+a.uiform-action {
+    margin: 4px;
+    border: 1px solid #abc;
+    padding: 4px 9px;
+    color: #567;
+    font-weight: bold;
+    text-decoration: none;
+    background-color: #cde;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+a.uiform-action:hover {
+    color: black;
+    background-color: #def;
+}
+
+a.action-unsafe:hover {
+    color: darkred;
+    border-color: darkred;
+}
+
+a.action-safe:hover {
+    color: green;
+    border-color: green;
+}
+
+.create-update-form {
+    font-family: Verdana, sans-serif;
+    font-size: 140%;
+    text-align: left;
+    padding-left: 50px;
+}
+
+.create-update-form label {
+    margin-right: 10px;
+}
+
+.create-update-form input {
+    padding: 8px;
+    font-size: 80%;
+}
+
+.create-update-form textarea {
+    display: block;
+    margin-top: 8px;
+    padding: 10px;
+    font-size: 80%;
+    position: relative;
+    width: 600px;
+    height: 50px;
+}
+
+.create-update-form button {
+    padding: 8px 12px;
+    font-size: 80%;
+}
+
+.create-update-form h3 {
+    background-color: #FFF;
+    color: #3E3E3E;
+    margin: 20px 0px;
+    border: 1px dashed #ccc;
+    border-left: none;
+    padding: 4px 14px;
+    width: 500px;
+    margin-left: -50px;
+}
+

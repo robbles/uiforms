@@ -1,0 +1,49 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 id="section-title">Build your UIForm</h2>
+
+<div class="create-update-form">
+    <h3>Update "{{ uiform.label }}"</h3>
+    <form action="{% url update_uiform user.username uiform.slug %}" method="post">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit" name="create">Update UIForm</button>
+    </form>
+</div>
+
+<div class="create-update-form">
+    {% if not uiform.uifield_set.count %}
+        <h3>This form doesn't have any fields yet!</h3>
+    {% endif %}
+
+    {% for uifield in uiform.uifield_set.all %}
+
+        <form action="{% url update_uiform user.username uiform.slug %}" method="post">
+            {% csrf_token %}
+            <h3>Change "{{ uifield.label }}"</h3>
+            {{ uifield.get_form.as_p }}
+            <button type="submit" name="create">Update Field</button>
+        </form>
+
+    {% endfor %}
+</div>
+
+<div class="create-update-form">
+    <h3>Add a Field</h3>
+    <form action="{% url create_uifield uiform.id %}" method="post">
+        {% csrf_token %}
+
+        {{ uiform.get_fieldform.as_p }}
+
+        <button type="submit" name="create">Add a Field</button>
+    </form>
+</div>
+
+
+{% endblock %}
+

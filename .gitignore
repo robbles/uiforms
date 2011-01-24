@@ -1,0 +1,6 @@
+dev.db
+*.pyc
+local_settings.py
+*.vim
+.livereload
+static

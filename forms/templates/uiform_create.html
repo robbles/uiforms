@@ -1,0 +1,21 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 id="section-title">Create a UIForm</h2>
+
+<div class="create-update-form">
+    <h3>Describe this UIForm</h3>
+    <form action="{% url create_uiform user.username %}" method="post">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit" name="create">Create!</button>
+    </form>
+</div>
+
+
+{% endblock %}
+
