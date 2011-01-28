@@ -7,15 +7,15 @@
 
 {% for uiform in uiform_list %}
     <div class="uiform">
-        <a class="uiform-title" href="{% url update_uiform user.username uiform.slug %}">
+        <a class="uiform-title" href="{% url update_uiform uiform.slug %}">
             <h3>{{ uiform.label }}</h3>
         </a>
         <p class="uiform-description">{{ uiform.description }}</p>
         <p class="username">{{ uiform.user.username }}</p>
 
-        <a class="uiform-action" href="{% url update_uiform user.username uiform.slug %}">Edit this UIForm</a>
-        <a class="uiform-action action-unsafe" href="{% url delete_uiform user.username uiform.slug %}">Delete this UIForm</a>
-        <a class="uiform-action action-safe" href="{% url preview_uiform user.username uiform.slug %}">Preview this UIForm</a>
+        <a class="uiform-action" href="{% url update_uiform uiform.slug %}">Edit this UIForm</a>
+        <a class="uiform-action action-unsafe" href="{% url delete_uiform uiform.slug %}">Delete this UIForm</a>
+        <a class="uiform-action action-safe" href="{% url preview_uiform uiform.slug %}">Preview this UIForm</a>
     </div>
 {% endfor %}
 

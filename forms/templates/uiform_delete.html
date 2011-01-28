@@ -5,15 +5,13 @@
 
 <h2 id="section-title">Delete UIForm</h2>
 
-<div class="create-update-form">
+<form action="{% url delete_uiform uiform.slug %}" method="post">
+    {% csrf_token %}
     <h3>Are you sure?</h3>
-    <form action="{% url delete_uiform user.username uiform.slug %}" method="post">
-        {% csrf_token %}
-        <p>This action cannot be undone!</p>
-        <button type="submit" name="create">Yes, delete it</button>
-    </form>
+    <p>This action cannot be undone!</p>
+    <button type="submit" name="create">Yes, delete it</button>
+</form>
 
-</div>
 
 
 {% endblock %}

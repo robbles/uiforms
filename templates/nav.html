@@ -1,0 +1,26 @@
+
+<nav id="nav">
+    <div id="nav-home" class="nav-element">
+        <a href="{% url landing_page %}">UIForms!</a>
+    </div>
+    {% if user.is_authenticated %}
+    <div class="nav-element">
+        <a href="{% url list_uiforms %}">My UIForms</a>
+    </div>
+    <div class="nav-element">
+        <a href="{% url create_uiform %}">Create a new UIForm</a>
+    </div>
+    <div class="nav-element">
+        <a href="{% url auth_logout %}">Log Out</a>
+    </div>
+    {% else %}
+    <div class="nav-element">
+        <a href="{% url auth_login %}">Log In</a>
+    </div>
+    <div class="nav-element">
+        <a href="{% url registration_register %}">Register</a>
+    </div>
+    {% endif %}
+    <div class="clear"></div>
+</nav>
+

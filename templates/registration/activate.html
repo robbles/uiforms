@@ -1,0 +1,15 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 id="section-title">Activation Failed!</h2>
+
+<div class="empty-form">
+    <p>Sorry, there was a problem activating your account.</p>
+    <p>The key used was {{ activation_key }}</p>
+</div>
+
+{% endblock %}
+
+

@@ -4,24 +4,23 @@
 
 <h2 id="section-title">{{ uiform.label }}</h2>
 
-<div class="create-update-form">
+<form action="" method="get">
+    {% csrf_token %}
     <h3>{{ uiform.label }}</h3>
-    <p>{{ uiform.description }}</p>
+    <p class="uiform-description">{{ uiform.description }}</p>
 
-    {% for uifield in uiform.uifield_set.all %}
-        <p>
-            <label>{{ uifield.label }}</label>
-            {% ifequal uifield.kind 'B' %}
-                <input type="checkbox" />
-            {% else %}
-                <input type="text" />
-            {% endifequal %}
-        </p>
+    {% for field in uiform.get_preview_form %}
+
+    <div class="uifield">
+        {{ field.errors }}
+        <p>{{ field.label_tag }}: {{ field }}</p>
+        <p>{{ field.help_text }}</p>
+    </div>
 
     {% endfor %}
 
     <button type="submit" name="submit">Submit</button>
-</div>
+</form>
 
 {% endblock %}
 

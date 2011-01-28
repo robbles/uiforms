@@ -1,0 +1,8 @@
+{
+    "id": {{ uiform.id }}, 
+    "slug": "{{ uiform.slug }}", 
+    "label": "{{ uiform.label }}",
+    "description": "{{ uiform.description }}",
+    "creator": "{{ uiform.creator }}",
+    "last_updated": {{ uiform.last_updated|date:"U" }} 
+}

@@ -5,45 +5,42 @@
 
 <h2 id="section-title">Build your UIForm</h2>
 
-<div class="create-update-form">
+{% if form %}
+<form action="{% url update_uiform uiform.slug %}" method="post">
+    {% csrf_token %}
     <h3>Update "{{ uiform.label }}"</h3>
-    <form action="{% url update_uiform user.username uiform.slug %}" method="post">
-        {% csrf_token %}
 
-        {{ form.as_p }}
+    {{ form.as_p }}
 
-        <button type="submit" name="create">Update UIForm</button>
-    </form>
-</div>
+    <button type="submit" name="create">Update UIForm</button>
+    <a class="preview-link" href="{% url preview_uiform uiform.slug %}">Preview UIForm</a>
+</form>
+{% endif %}
 
-<div class="create-update-form">
-    {% if not uiform.uifield_set.count %}
-        <h3>This form doesn't have any fields yet!</h3>
+<form action="{% url update_uifields uiform.slug %}" method="POST">
+    {% csrf_token %}
+
+    {% if formset.initial_form_count %}
+    <h3>Update Existing Fields</h3>
     {% endif %}
 
-    {% for uifield in uiform.uifield_set.all %}
+    {{ formset.management_form }}
 
-        <form action="{% url update_uiform user.username uiform.slug %}" method="post">
-            {% csrf_token %}
-            <h3>Change "{{ uifield.label }}"</h3>
-            {{ uifield.get_form.as_p }}
-            <button type="submit" name="create">Update Field</button>
-        </form>
+        {% for form in formset.forms %}
 
-    {% endfor %}
-</div>
+            {% if form.empty_permitted %}
+                <h3>Create a new field</h3>
+            {% endif %}
 
-<div class="create-update-form">
-    <h3>Add a Field</h3>
-    <form action="{% url create_uifield uiform.id %}" method="post">
-        {% csrf_token %}
+            <div class="uifield">
+                {{ form.as_p }}
+            </div>
 
-        {{ uiform.get_fieldform.as_p }}
+        {% endfor %}
 
-        <button type="submit" name="create">Add a Field</button>
-    </form>
-</div>
-
+        <button type="submit" name="update">Update Fields</button>
+        <a class="preview-link" href="{% url preview_uiform uiform.slug %}">Preview UIForm</a>
+</form>
 
 {% endblock %}
 

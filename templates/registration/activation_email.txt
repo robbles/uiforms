@@ -1,0 +1,13 @@
+Thanks for signing up for {{ site.name }}!
+
+You'll need to activate your account before you can start building forms.
+Please visit this link, or copy and paste it into your browser URL bar:
+
+http://{{ site.domain }}/accounts/activate/{{ activation_key }}
+
+You can do this anytime in the next {{ expiration_days }} days, after which
+your temporary account will be removed.
+
+Thanks,
+The {{ site.name }} Team.
+

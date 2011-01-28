@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 id="section-title">Log In</h2>
+
+<form action="" method="post">
+    {% csrf_token %}
+
+    {% if form.errors %}
+        <p class="error">Sorry, that's not a valid username or password</p>
+    {% endif %}
+
+    <p>
+    <label for="username">User name:</label>
+    <input type="text" name="username" value="" id="username">
+
+    <label for="password">Password:</label>
+    <input type="password" name="password" value="" id="password">
+    </p>
+
+    <button type="submit" value="login">Log In</button>
+    {% if next %}
+        <input type="hidden" name="next" value="{{ next|escape }}" />
+    {% else %}
+        <input type="hidden" name="next" value="{% url list_uiforms %}" />
+    {% endif %}
+</form>
+
+{% endblock %}
+
+
