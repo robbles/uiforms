@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 from django import forms
 from django.forms.models import inlineformset_factory
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 from datetime import datetime
 import logging
 log = logging.getLogger(__name__)
@@ -16,8 +16,10 @@ class UIForm(models.Model):
     last_updated = models.DateTimeField(auto_now=True)
 
     def save(self, **kw):
-        # Populate slug field when saved
-        self.slug = slugify(self.label)
+        # Populate slug field when first saved
+        if not self.id:
+            self.slug = slugify(self.label)
+
         super(UIForm, self).save(**kw)
 
     @models.permalink
@@ -59,7 +61,7 @@ class UIField(models.Model):
     uiform = models.ForeignKey(UIForm, editable=False)
 
 
-def update_field_parent(sender, instance, created, **kw):
+def update_field_parent(sender, instance, created=False, **kw):
     """ Updates the timestamp on the parent UIForm when a UIField is saved. """
     print '%s saved: %d' % (sender.__name__, instance.id)
     uiform = instance.uiform
@@ -67,6 +69,7 @@ def update_field_parent(sender, instance, created, **kw):
     uiform.save()
 
 post_save.connect(update_field_parent, sender=UIField)
+post_delete.connect(update_field_parent, sender=UIField)
 
 
 
