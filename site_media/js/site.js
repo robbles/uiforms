@@ -8,6 +8,13 @@ $(document).ready(function() {
         return false;
     }).text('Live Preview');
 
+    if(typeof window.console == 'undefined') {
+        window.console = {
+            log: function() { },
+            error: function() { },
+        };
+    }
+
 });
 
 })();

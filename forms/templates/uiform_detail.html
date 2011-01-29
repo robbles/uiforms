@@ -1,13 +1,21 @@
 {% extends "base.html" %}
 
+{% block js %}
+<script src="{{ STATIC_URL }}js/refresh-uiform.js" type="text/javascript" language="en" charset="utf-8"></script>
+{% endblock %}
+
 {% block content %}
 
 <h2 id="section-title">{{ uiform.label }}</h2>
 
-<form action="" method="get">
+<form action="" method="get" class="preview-form" id="preview-form-{{ uiform.id }}">
     {% csrf_token %}
     <h3>{{ uiform.label }}</h3>
     <p class="uiform-description">{{ uiform.description }}</p>
+
+    <input type="hidden" id="uiform-id" name="uiform-id" value="{{ uiform.id }}" />
+    <input type="hidden" id="uiform-url" name="uiform-url" value="{% url status_uiform uiform.id %}"/>
+    <input type="hidden" id="uiform-last-updated" name="uiform-last-updated" value="{{ uiform.last_updated|date:"U"}}"/>
 
     {% for field in uiform.get_preview_form %}
 

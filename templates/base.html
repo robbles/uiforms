@@ -6,11 +6,17 @@
     <script src="{{ STATIC_URL }}js/jquery.colorbox-min.js" type="text/javascript" language="en" charset="utf-8"></script>
     <script src="{{ STATIC_URL }}js/modernizr.min.js" type="text/javascript" language="en" charset="utf-8"></script>
     <script src="{{ STATIC_URL }}js/site.js" type="text/javascript" language="en" charset="utf-8"></script>
+    {% block js %}
+    {% endblock %}
 
     <link rel="shortcut icon" type="image/x-icon" href="{{ STATIC_URL }}images/favicon.ico" />
     <link rel="icon" type="image/x-icon" href="{{ STATIC_URL }}images/favicon.ico" />
+    {% block css %}
+    {% endblock %}
 
+    {% block title %}
     <title>UIForms</title>
+    {% endblock %}
     
 </head>
 <body id="site">

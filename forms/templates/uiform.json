@@ -4,5 +4,6 @@
     "label": "{{ uiform.label }}",
     "description": "{{ uiform.description }}",
     "creator": "{{ uiform.creator }}",
-    "last_updated": {{ uiform.last_updated|date:"U" }} 
+    "last_updated": {{ uiform.last_updated|date:"U" }},
+    "url": "{% url preview_uiform uiform.slug %}"
 }
