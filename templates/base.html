@@ -2,8 +2,9 @@
 <html>
 <head>
     <link rel="stylesheet" href="{{ STATIC_URL }}css/site.css" type="text/css" media="screen,print" charset="utf-8" />
+
     <script src="{{ STATIC_URL }}js/jquery.min.js" type="text/javascript" language="en" charset="utf-8"></script>
-    <script src="{{ STATIC_URL }}js/jquery.colorbox-min.js" type="text/javascript" language="en" charset="utf-8"></script>
+    <script src="{{ STATIC_URL }}js/jquery.jgrowl.js" type="text/javascript" language="en" charset="utf-8"></script>
     <script src="{{ STATIC_URL }}js/modernizr.min.js" type="text/javascript" language="en" charset="utf-8"></script>
     <script src="{{ STATIC_URL }}js/site.js" type="text/javascript" language="en" charset="utf-8"></script>
     {% block js %}
@@ -11,12 +12,23 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="{{ STATIC_URL }}images/favicon.ico" />
     <link rel="icon" type="image/x-icon" href="{{ STATIC_URL }}images/favicon.ico" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/jquery.jgrowl.css" type="text/css" media="screen" charset="utf-8" />
     {% block css %}
     {% endblock %}
 
     {% block title %}
     <title>UIForms</title>
     {% endblock %}
+
+    {% if messages %}
+    <script type="text/javascript" language="javascript" charset="utf-8">
+        $(document).ready(function() {
+            {% for message in messages %}
+                $.jGrowl("{{ message }}");
+            {% endfor %}
+        });
+    </script>
+    {% endif %}
     
 </head>
 <body id="site">
