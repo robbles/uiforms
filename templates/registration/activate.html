@@ -3,12 +3,30 @@
 
 {% block content %}
 
-<h2 id="section-title">Activation Failed!</h2>
+{% if not account %}
+    <h2 id="section-title">Activation Failed!</h2>
 
-<div class="empty-form">
-    <p>Sorry, there was a problem activating your account.</p>
-    <p>The key used was {{ activation_key }}</p>
-</div>
+    <div class="empty-form">
+        <p>Sorry, there was a problem activating your account! Please contact
+        support for further assistance</p>
+    </div>
+{% else %}
+    <h2 id="section-title">Account activated!</h2>
+
+    <div class="empty-form">
+        <p>Welcome to UIforms, {{ account.username }}!</p>
+
+        <p>Please <a href="{% url auth_login %}">click here</a> if your browser
+        does not automatically redirect you...</a>
+    </div>
+
+    <script type="text/javascript" language="javascript" charset="utf-8">
+        setTimeout(function() {
+            window.location = "{% url auth_login %}";
+        }, 3000);
+    </script>
+    
+{% endif %}
 
 {% endblock %}
 
