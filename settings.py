@@ -40,7 +40,7 @@ STATIC_ROOT = path.join(PROJECT_ROOT, 'static')
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    (PROJECT_ROOT, 'site_media')
+    ('site_media',)
 )
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
