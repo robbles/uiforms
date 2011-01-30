@@ -23,6 +23,13 @@ DATABASES = {
 
 INTERNAL_IPS = ('127.0.0.1')
 
+DEFAULT_FROM_EMAIL = ''
+EMAIL_HOST = 'smtp.nautilus.io'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'nemo@nautilus.io'
+EMAIL_HOST_PASSWORD = 'arronax'
+
 import logging
 logging.basicConfig(
     level = logging.DEBUG if DEBUG else logging.INFO,
