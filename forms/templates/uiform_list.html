@@ -5,6 +5,13 @@
 
 <h2 id="section-title">List of UIForms</h2>
 
+{% if not uiform_list %}
+<div class="empty-form">
+    <h3>You don't have any forms yet!</h3>
+    <p>Click on "Create a new UIForm" to start making forms</p>
+</div>
+{% endif %}
+
 {% for uiform in uiform_list %}
     <div class="uiform">
         <a class="uiform-title" href="{% url update_uiform uiform.slug %}">
