@@ -1,21 +1,26 @@
-import logging
 from django.contrib.auth.decorators import login_required
 from django.views.generic.create_update import create_object, update_object, delete_object
 from django.views.generic.list_detail import object_list, object_detail
-from django.http import HttpResponseRedirect, HttpResponseNotAllowed, Http404
+from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render_to_response, get_object_or_404, redirect
-from django.template import RequestContext
+from django.template import RequestContext, Context
 from django.core.urlresolvers import reverse
+from django.contrib import messages
+from uuid import uuid4
 
-from models import UIForm, UIField, UIFormForm
+import logging
 log = logging.getLogger(__name__)
 
-def register(request):
-    pass
+from models import UIForm, UIField, URLToken, UIFormForm, PreviewForm, ShareForm
+from utils import *
+
 
 @login_required
 def landing_page(request):
-    # TODO: make actual landing page template
+    """
+    Just redirect straight to the list of forms, since there's nothing else to
+    do in this app :)
+    """
     return redirect('list_uiforms')
 
 
@@ -37,6 +42,7 @@ def list_uiforms(request):
 
 
 @login_required
+@result_message(redirect="UIForm created successfully")
 def create_uiform(request):
     if request.method == 'POST':
         # Pre-populate the user from the request
@@ -90,8 +96,13 @@ def delete_uiform(request, slug):
     }
     return delete_object(request, **options)
 
+
 @login_required
 def preview_uiform(request, slug):
+    if request.method == 'POST':
+        # Redirect POSTs to avoid messing with history
+        return redirect('preview_uiform', slug)
+
     options = {
         'slug': slug,
         'queryset': UIForm.objects.filter(
@@ -100,6 +111,38 @@ def preview_uiform(request, slug):
         'template_object_name': 'uiform',
     }
     return object_detail(request, **options)
+
+
+def view_token_uiform(request, slug, token):
+    # Find the URLToken that matches both the slug and token
+    urltoken = get_object_or_404(URLToken, token=token, uiform__slug=slug)
+    uiform = urltoken.uiform
+
+    if request.method == 'POST':
+
+        # Visitor has filled out the form
+        form = PreviewForm(uiform, request.POST)
+
+        if form.is_valid():
+            try:
+                send_form_email(request, uiform, form)
+                messages.success(request, 'Form submitted! Nice work.')
+
+            except EmailError, e:
+                log.error(str(e))
+                messages.error(request, 'Error submitting form!')
+
+            return redirect('view_token_uiform', slug, token)
+        else:
+            messages.error(request, 'Sorry, you need to correct some errors in the form...')
+    else:
+        # Render a blank form for the visitor to fill out
+        form = PreviewForm(uiform)
+
+    return render_to_response('uiform_detail.html', {
+        'uiform': uiform,
+        'preview_form': form,
+    }, context_instance=RequestContext(request))
 
 
 @login_required
@@ -111,11 +154,46 @@ def status_uiform(request, id):
     })
     
 
+@login_required
+def share_uiform(request, slug):
+    uiform = get_object_or_404(UIForm, slug=slug,
+            creator__username__exact=request.user.username)
+
+    if request.method == 'POST':
+        form = ShareForm(request.POST)
+        if form.is_valid():
+            log.debug('Received valid share form, creating token')
+
+            try:
+                url = send_share_email(request, uiform, 
+                        form.cleaned_data['email'],
+                        form.cleaned_data['message'])
+
+                messages.success(request, 'UIForm has been shared at %s' % url)
+
+            except EmailError, e:
+                log.error(str(e))
+                messages.error(request, 'Error sending email')
+
+            # Go back to UIForm update page
+            return redirect('list_uiforms')
+    else:
+        form = ShareForm()
+
+    return render_to_response('uiform_share.html', {
+        'uiform': uiform,
+        'form': form,
+    }, context_instance=RequestContext(request))
+
+
+
+
 ###############################################
 #
 #               UIFields
 #
 ###############################################
+
 
 @login_required
 def update_uifields(request, slug):
@@ -125,6 +203,7 @@ def update_uifields(request, slug):
     if request.method == 'POST':
         formset = uiform.get_field_formset(request.POST)
         if formset.is_valid():
+            messages.success(request, 'UIFields updated')
             formset.save()
 
             # Go back to UIForm update page
@@ -136,18 +215,6 @@ def update_uifields(request, slug):
         'formset': formset,
         'uiform': uiform,
     }, context_instance=RequestContext(request))
-
-
-
-def check_user(request, username):
-    if request.user.username != username:
-        # Return 404 instead of 401 to avoid revealing data
-        log.warning('Cross-user request for UIForm')
-        raise Http404('UIForm or UIField not found!')        
-
-
-
-
 
 
 

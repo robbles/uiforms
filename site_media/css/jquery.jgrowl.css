@@ -3,7 +3,7 @@ div.jGrowl {
 	padding: 			10px;
 	z-index: 			9999;
 	color: 				#fff;
-	font-size: 			12px;
+	font-size: 			18px;
 }
 
 /** Special IE6 Style Positioning **/
@@ -87,6 +87,7 @@ div.jGrowl div.jGrowl-notification, div.jGrowl div.jGrowl-closer {
     filter: 				progid:DXImageTransform.Microsoft.Alpha(Opacity=85); 
 	zoom: 					1;
 	width: 					235px;
+	width: 					400px;
 	padding: 				10px;
 	margin-top: 			5px;
 	margin-bottom: 			5px;

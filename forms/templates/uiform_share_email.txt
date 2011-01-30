@@ -1,0 +1,12 @@
+{{ user.username }} wants to share the UIForm "{{ uiform.label }}" with you!
+
+{% if message %}
+They said:
+"{{ message }}"
+{% endif %}
+
+To see it, click the following link or copy and paste it into your browser:
+{{ url }}
+
+From UIForms!
+

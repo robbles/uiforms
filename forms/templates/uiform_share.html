@@ -1,0 +1,20 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 id="section-title">Share "{{ uiform.label}}"</h2>
+
+<form action="" method="post">
+    <h3>Enter the email address</h3>
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit" name="send">Send!</button>
+</form>
+
+
+{% endblock %}
+
+

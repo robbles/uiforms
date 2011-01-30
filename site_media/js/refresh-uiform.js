@@ -2,6 +2,7 @@
 
 $(document).ready(function() {
 
+    console.log('preview refreshing enabled');
     var refresh_interval = 1000;
 
     var id = $('#uiform-id').attr('value');

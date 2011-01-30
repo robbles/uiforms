@@ -36,5 +36,13 @@ urlpatterns = patterns('',
     # Check UIForm status
     url(r'^(?P<id>\d+)/status/$', views.status_uiform,
         name='status_uiform'),
+
+    # Share UIForm with a friend
+    url(r'^(?P<slug>[\w-]+)/share/$', views.share_uiform, 
+        name='share_uiform'),
+
+    # Preview UIForm by token and submit
+    url(r'^(?P<slug>[\w-]+)/view/(?P<token>[\w-]+)/$', views.view_token_uiform,
+        name='view_token_uiform'),
 )
 

@@ -16,6 +16,7 @@
         <a class="uiform-action" href="{% url update_uiform uiform.slug %}">Edit this UIForm</a>
         <a class="uiform-action action-unsafe" href="{% url delete_uiform uiform.slug %}">Delete this UIForm</a>
         <a class="uiform-action action-safe" href="{% url preview_uiform uiform.slug %}">Preview this UIForm</a>
+        <a class="uiform-action action-safe" href="{% url share_uiform uiform.slug %}">Share this UIForm</a>
     </div>
 {% endfor %}
 

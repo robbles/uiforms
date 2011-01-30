@@ -1,0 +1,10 @@
+Congratulations! Someone has filled out your UIForm "{{ uiform.label }}".
+
+Here are the results:
+{% for field in form.get_results %}
+{{ field.label }}: {{ field.answer }}
+{% endfor %}
+
+From UIForms!
+
+

@@ -11,4 +11,5 @@ class UIFormAdmin(admin.ModelAdmin):
     ]
 
 admin.site.register(UIForm, UIFormAdmin)
+admin.site.register(URLToken)
 

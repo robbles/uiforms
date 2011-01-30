@@ -5,10 +5,12 @@ from django import forms
 from django.forms.models import inlineformset_factory
 from django.db.models.signals import post_save, post_delete
 from datetime import datetime
-import logging
-log = logging.getLogger(__name__)
+from uuid import uuid4
 
 class UIForm(models.Model):
+    """
+    Represents a form created by the user.
+    """
     label = models.CharField(max_length=140)
     description = models.TextField()
     creator = models.ForeignKey(User)
@@ -26,11 +28,13 @@ class UIForm(models.Model):
     def get_absolute_url(self):
         return ('update_uiform', [self.slug])
 
+    def __unicode__(self):
+        return 'URLForm "%s"' % self.label
+
     def get_field_formset(self, data=None, **kw):
         """ 
         Create and return a FormSet for creating new UIFields.
         """
-        log.debug('Fetching UIField formset for UIForm %s' % self.slug)
         UIFieldFormSet = inlineformset_factory(UIForm, UIField, 
                 fk_name='uiform', extra=1, formset=BaseUIFieldFormSet)
         if data:
@@ -39,17 +43,11 @@ class UIForm(models.Model):
             formset = UIFieldFormSet(instance=self)
         return formset
 
-    def get_update_form(self):
-        """ Create and return a form for updating this UIForm """
-        return UIFormForm(self)
-
-    def get_preview_form(self):
-        """ Create and return a form for previewing this UIForm """
-        return PreviewForm(self)
-
-
 
 class UIField(models.Model):
+    """
+    Represents a field in a UIForm.
+    """
     field_types = (
         ('B', 'Boolean'),
         ('I', 'Integer'),
@@ -62,8 +60,9 @@ class UIField(models.Model):
 
 
 def update_field_parent(sender, instance, created=False, **kw):
-    """ Updates the timestamp on the parent UIForm when a UIField is saved. """
-    print '%s saved: %d' % (sender.__name__, instance.id)
+    """
+    Update the timestamp on the parent UIForm when a UIField is saved. 
+    """
     uiform = instance.uiform
     uiform.last_updated = datetime.now()
     uiform.save()
@@ -73,14 +72,45 @@ post_delete.connect(update_field_parent, sender=UIField)
 
 
 
+class URLToken(models.Model):
+    """ 
+    Used for generating token URLs for sharing UIForms by email. 
+    Note: the token is automatically generated on first save with uuid.uuid4()
+    """
+    uiform = models.ForeignKey(UIForm, unique=True)
+    token = models.CharField(max_length=64, editable=False)
+
+    def save(self, **kw):
+        # Populate token field when first saved
+        if not self.id:
+            self.token = str(uuid4())
+
+        super(URLToken, self).save(**kw)
+
+    @models.permalink
+    def get_absolute_url(self):
+        """
+        Return the token URL for this URLTokens UIForm.
+        """
+        return ('view_token_uiform', [self.uiform.slug, self.token])
+
+    def __unicode__(self):
+        return 'URLToken for "%s" : %s' % (self.uiform.label, self.token)
+
+
+
 class UIFormForm(forms.ModelForm):
+    """
+    The amusingly-named Form for editing and creating UIForms.
+    """
     label = forms.CharField(max_length=140, initial='My New UIForm')
     description = forms.CharField(widget=forms.Textarea, 
             initial='A brief description of this form...')
 
     class Meta:
         model = UIForm
-        exclude = ('creator',)
+        # User is automatically assigned
+        exclude = ('creator',) 
 
     def clean_label(self):
         """ Checks to make sure labels are unique per user """
@@ -97,6 +127,9 @@ class UIFormForm(forms.ModelForm):
 
 
 class BaseUIFieldFormSet(forms.models.BaseInlineFormSet):
+    """
+    Formset for adding UIFields inline on the UIForm update page.
+    """
     def add_fields(self, form, index):
         super(BaseUIFieldFormSet, self).add_fields(form, index)
 
@@ -126,8 +159,24 @@ class PreviewForm(forms.Form):
                 continue
             self.fields['uifield_%d_question' % uifield.id] = field
 
+    def get_results(self):
+        """
+        Returns a list of {'label':UIField.label, 'answer':the answer} dicts.
+        """
+        return [{
+            'label': self.fields[field].label,
+            'answer': self.cleaned_data[field]
+        } for field in self.fields]
 
-            
+
+
+
+class ShareForm(forms.Form):
+    """
+    Form for sharing the address of a UIForm with an email.
+    """
+    email = forms.EmailField()
+    message = forms.CharField(widget=forms.Textarea(), required=False)
 
 
 

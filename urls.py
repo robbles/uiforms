@@ -8,10 +8,10 @@ urlpatterns = patterns('',
 
     (r'^accounts/', include('registration.urls')),
 
-    # Include app urls
+    # Include forms app urls
     (r'^forms/', include('forms.urls')),
 
-    # TODO: landing page
+    # Delegate top-level requests to the forms app
     url(r'^$', 'forms.views.landing_page', name='landing_page'),
 )
 
