@@ -7,11 +7,11 @@ def deploy():
     with cd('webapps/uiforms/uiforms/'):
         run('git pull origin master')
 
-    # Show the last commit as a sanity check
-    run('git log -n1')
+        # Show the last commit as a sanity check
+        run('git log -n1')
 
     # Restart Apache
     with cd('webapps/uiforms/apache2/bin'):
-        run('restart')
+        run('./restart')
 
 
