@@ -19,13 +19,13 @@
     <input type="hidden" id="uiform-url" name="uiform-url" value="{% url status_uiform uiform.id %}"/>
     <input type="hidden" id="uiform-last-updated" name="uiform-last-updated" value="{{ uiform.last_updated|date:"U"}}"/>
 
-    {% for field in preview_form %}
+    {% for field in uiform.get_preview_form %}
 
-    <div class="uifield">
-        {{ field.errors }}
-        <p>{{ field.label_tag }}: {{ field }}</p>
-        <p>{{ field.help_text }}</p>
-    </div>
+        <div class="uifield">
+            {{ field.errors }}
+            <p>{{ field.label_tag }}: {{ field }}</p>
+            <p>{{ field.help_text }}</p>
+        </div>
 
     {% endfor %}
 

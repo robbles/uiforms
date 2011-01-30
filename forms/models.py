@@ -31,6 +31,13 @@ class UIForm(models.Model):
     def __unicode__(self):
         return 'URLForm "%s"' % self.label
 
+    def get_preview_form(self, data=None):
+        """ Return a form for viewing or processing this UIForm """
+        if data:
+            return PreviewForm(self, data)
+        else:
+            return PreviewForm(self)
+
     def get_field_formset(self, data=None, **kw):
         """ 
         Create and return a FormSet for creating new UIFields.

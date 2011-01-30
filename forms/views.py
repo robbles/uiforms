@@ -121,7 +121,7 @@ def view_token_uiform(request, slug, token):
     if request.method == 'POST':
 
         # Visitor has filled out the form
-        form = PreviewForm(uiform, request.POST)
+        form = uiform.get_preview_form(request.POST)
 
         if form.is_valid():
             try:
@@ -137,11 +137,10 @@ def view_token_uiform(request, slug, token):
             messages.error(request, 'Sorry, you need to correct some errors in the form...')
     else:
         # Render a blank form for the visitor to fill out
-        form = PreviewForm(uiform)
+        form = uiform.get_preview_form()
 
     return render_to_response('uiform_detail.html', {
         'uiform': uiform,
-        'preview_form': form,
     }, context_instance=RequestContext(request))
 
 
